@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import LoginPage from './Components/LoginPage';
 
-function App() {
+// Define the Home component inside App to ensure useNavigate is used correctly
+const App = () => {
+  const Home = () => {
+    const navigate = useNavigate();
+
+    const takeToLogin = () => {
+      navigate('/login');
+    };
+
+    return (
+      <div>
+        <h1>Home</h1>
+        <button onClick={takeToLogin}>Go to Login</button>
+      </div>
+    );
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        {/* Add additional Routes here as needed */}
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
