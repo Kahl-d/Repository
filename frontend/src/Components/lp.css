@@ -31,4 +31,6 @@
 
 button{
     cursor: pointer;
+    width: 100px;
+    height: 50px;
 }
