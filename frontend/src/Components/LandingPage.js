@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import {React, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './lp.css';
 
 const LandingPage = () => {
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
     const navigate = useNavigate();
 
     const goToHome = () => {
@@ -10,27 +14,53 @@ const LandingPage = () => {
     };
 
     const onLoginClick = () => {
-        fetch('http://127.0.0.1:5000/test') // Replace with your Flask backend endpoint
-            .then((response) => response.json())
-            .then((data) => {
-                // Handle the response data here
-                console.log(data);
+        console.log('Username:', username);
+        console.log('Password:', password);
+
+        fetch('http://127.0.0.1:5000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
             })
-            .catch((error) => {
-                // Handle any errors here
-                console.error('Error fetching data:', error);
-            });
-    }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            if(data.success) {
+                goToHome();
+            } else {
+                alert('Invalid credentials');
+            }
+        })
 
+    };
+    
 
+    
     return (
         <div id="landingContainer">
             <h1 className='landingItem'>Welcome to TAEEP</h1>
             <div className='landingItem'>
                 <h2>Login</h2>
                 <form id="loginSection">
-                    <input type="text" placeholder="Username" autoComplete='email' />
-                    <input type="password" placeholder="Password" autoComplete='current-password' />
+                    <input 
+                        type="text" 
+                        placeholder="Username" 
+                        autoComplete='email'
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        />
+                    <input 
+                        type="password" 
+                        placeholder="Password" 
+                        autoComplete='current-password' 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        />
                     <button 
                     onClick={onLoginClick}
                     type="button">
