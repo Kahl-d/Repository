@@ -9,7 +9,7 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})  # Enable COR
 
 # MongoDB connection
 client = MongoClient('mongodb+srv://khalid:Kh123@taeep.wjs3rkq.mongodb.net/')
-db = client.Taaep
+db = client.Taeep
 users_collection = db.User
 
 @app.route('/test', methods=['GET'])
@@ -25,6 +25,8 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+
+    print(username, password)
     
     if not username or not password:
         return jsonify({'message': 'Missing fields'}), 400

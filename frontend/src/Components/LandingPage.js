@@ -13,7 +13,8 @@ const LandingPage = () => {
         navigate('/home');
     };
 
-    const onLoginClick = () => {
+    const onLoginClick = (e) => {
+        e.preventDefault();  // Prevent default form submission behavior
         console.log('Username:', username);
         console.log('Password:', password);
 
@@ -30,17 +31,14 @@ const LandingPage = () => {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            if(data.success) {
-                goToHome();
-            } else {
-                alert('Invalid credentials');
-            }
+            // Handle successful login (e.g., navigate to another page)
         })
-
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle error (e.g., show error message)
+        });
     };
-    
 
-    
     return (
         <div id="landingContainer">
             <h1 className='landingItem'>Welcome to TAEEP</h1>
@@ -53,17 +51,17 @@ const LandingPage = () => {
                         autoComplete='email'
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        />
+                    />
                     <input 
                         type="password" 
                         placeholder="Password" 
                         autoComplete='current-password' 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        />
+                    />
                     <button 
-                    onClick={onLoginClick}
-                    type="button">
+                        onClick={onLoginClick}
+                        type="button">
                         Login
                     </button>
                 </form>
